@@ -1,8 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{associated_token::AssociatedToken, metadata::{mpl_token_metadata::instructions::{FreezeDelegatedAccountCpi, FreezeDelegatedAccountCpiAccounts, ThawDelegatedAccountCpi, ThawDelegatedAccountCpiAccounts}, MasterEditionAccount, Metadata, MetadataAccount}, token::{approve, mint_to, revoke, Approve, Mint, MintTo, Revoke, Token, TokenAccount}};
-use crate::state::{StakeAccount, StakeConfig, UserAccount};
-
-use crate::errors::ErrorCode;
+use anchor_spl::{associated_token::AssociatedToken, token::{mint_to, Mint, MintTo, Token, TokenAccount}};
+use crate::state::{ StakeConfig, UserAccount};
 
 #[derive(Accounts)]
 pub struct Claim<'info> {

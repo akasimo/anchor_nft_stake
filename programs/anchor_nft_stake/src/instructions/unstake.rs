@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
-// use anchor_spl::{metadata::{Metadata, MetadataAccount}, token::{Mint, TokenAccount}};
-use anchor_spl::{metadata::{mpl_token_metadata::instructions::{FreezeDelegatedAccountCpi, FreezeDelegatedAccountCpiAccounts, ThawDelegatedAccountCpi, ThawDelegatedAccountCpiAccounts}, MasterEditionAccount, Metadata, MetadataAccount}, token::{approve, revoke, Approve, Mint, Revoke, Token, TokenAccount}};
+use anchor_spl::{metadata::{mpl_token_metadata::instructions::{ThawDelegatedAccountCpi, ThawDelegatedAccountCpiAccounts}, MasterEditionAccount, Metadata, MetadataAccount}, token::{revoke, Mint, Revoke, Token, TokenAccount}};
 use crate::state::{StakeAccount, StakeConfig, UserAccount};
 
 use crate::errors::ErrorCode;
@@ -67,7 +66,7 @@ pub struct Unstake<'info> {
 }
 
 impl<'info> Unstake<'info> {
-    pub fn unstake(&mut self, bumps: &UnstakeBumps) -> Result<()> {
+    pub fn unstake(&mut self, _bumps: &UnstakeBumps) -> Result<()> {
         
         // let freeze
         let days_elapsed = ((Clock::get()?.unix_timestamp - self.stake_account.last_updated) / ( 24 * 60 * 60)) as u32;

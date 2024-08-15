@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-// use anchor_spl::{metadata::{Metadata, MetadataAccount}, token::{Mint, TokenAccount}};
 use anchor_spl::{metadata::{mpl_token_metadata::instructions::{FreezeDelegatedAccountCpi, FreezeDelegatedAccountCpiAccounts}, MasterEditionAccount, Metadata, MetadataAccount}, token::{approve, Approve, Mint, Token, TokenAccount}};
 use crate::state::{StakeAccount, StakeConfig, UserAccount};
 
@@ -76,7 +75,7 @@ impl<'info> Stake<'info> {
 
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
-        approve(cpi_ctx, 1);
+        approve(cpi_ctx, 1)?;
 
         let delegate = &self.stake_account.to_account_info();
         let token_account = &self.mint_ata.to_account_info();

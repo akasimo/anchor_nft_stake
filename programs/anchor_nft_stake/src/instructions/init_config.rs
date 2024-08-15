@@ -1,7 +1,5 @@
 use anchor_lang::prelude::*;
-// use anchor_spl::{metadata::{Metadata, MetadataAccount}, token::{Mint, TokenAccount}};
-use anchor_spl::{metadata::{mpl_token_metadata::instructions::{FreezeDelegatedAccountCpi, FreezeDelegatedAccountCpiAccounts}, MasterEditionAccount, Metadata, MetadataAccount}, token::{approve, Approve, Mint, Token, TokenAccount}};
-// use crate::state::{StakeAccount, StakeConfig, UserAccount};
+use anchor_spl::token::{Mint, Token};
 
 use crate::state::StakeConfig;
 
