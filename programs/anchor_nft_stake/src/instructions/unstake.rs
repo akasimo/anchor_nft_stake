@@ -81,7 +81,7 @@ impl<'info> Unstake<'info> {
             ErrorCode::UnstakeFreezeDurationInvalid
         );
 
-        self.user_account.points += days_elapsed as u32 * self.config.points_per_stake as u32;
+        self.user_account.points += days_elapsed * self.config.points_per_stake as u32;
         
         let delegate = &self.stake_account.to_account_info();
         let token_account = &self.mint_ata.to_account_info();
