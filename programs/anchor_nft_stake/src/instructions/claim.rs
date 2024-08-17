@@ -7,6 +7,10 @@ pub struct Claim<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
 
+    #[account(
+        seeds = [b"config".as_ref()],
+        bump = config.bump
+    )]
     pub config: Account<'info, StakeConfig>,
 
     #[account(
@@ -45,7 +49,13 @@ impl<'info> Claim<'info> {
             authority: self.config.to_account_info(),
         };
 
-        let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
+        let seeds = &[
+            b"config".as_ref(),
+            &[self.config.bump]
+        ];     
+        let signer_seeds = &[&seeds[..]];
+
+        let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
 
         let amount = (self.user_account.points as u64) * 10_u64.pow(self.rewards_mint.decimals as u32);
         mint_to(cpi_ctx, amount)?;
