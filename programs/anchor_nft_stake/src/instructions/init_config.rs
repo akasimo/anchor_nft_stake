@@ -23,7 +23,8 @@ pub struct InitializeConfig<'info> {
         seeds = [b"rewards".as_ref(), config.key().as_ref()],
         bump,
         mint::decimals = 6,
-        mint::authority = config
+        mint::authority = config,
+        // mint::token_program = token_program.key(),
     )]
     pub rewards_mint: Account<'info, Mint>,
     system_program: Program<'info, System>,

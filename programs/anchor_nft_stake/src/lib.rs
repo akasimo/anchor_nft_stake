@@ -1,13 +1,10 @@
 use anchor_lang::prelude::*;
 
-mod instructions;
-mod state;
-
 pub mod errors;
+pub mod instructions;
+pub mod state;
 
-// pub use errors::*;
 pub use instructions::*;
-pub use state::*;
 
 declare_id!("DnV3BqazunEc7o2voPPVLJro79xhBNLZiubFknyiVKFf");
 
@@ -15,7 +12,7 @@ declare_id!("DnV3BqazunEc7o2voPPVLJro79xhBNLZiubFknyiVKFf");
 pub mod anchor_nft_stake {
     use super::*;
 
-    pub fn initialize(
+    pub fn initialize_config(
         ctx: Context<InitializeConfig>,
         points_per_stake: u8,
         max_stake: u8,
