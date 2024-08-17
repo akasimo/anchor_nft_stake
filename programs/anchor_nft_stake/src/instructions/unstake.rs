@@ -60,7 +60,7 @@ pub struct Unstake<'info> {
 
     #[account(
         mut,
-        // close = user,
+        close = user,
         seeds = [b"stake", mint.key().as_ref(), config.key().as_ref()],
         bump
     )]
@@ -77,14 +77,11 @@ impl<'info> Unstake<'info> {
             / (24 * 60 * 60)) as u32;
 
         require!(
-            days_elapsed > self.config.freeze_period,
+            days_elapsed >= self.config.freeze_period,
             ErrorCode::UnstakeFreezeDurationInvalid
         );
 
-        self.user_account.points += days_elapsed * (self.config.points_per_stake as u32);
-        self.stake_account.last_updated = Clock::get()?.unix_timestamp;
-        
-        self.user_account.amount_staked -= 1;
+        self.user_account.points += days_elapsed as u32 * self.config.points_per_stake as u32;
         
         let delegate = &self.stake_account.to_account_info();
         let token_account = &self.mint_ata.to_account_info();
@@ -117,12 +114,14 @@ impl<'info> Unstake<'info> {
         let cpi_program = self.token_program.to_account_info();
         let cpi_accounts = Revoke {
             source: self.mint_ata.to_account_info(),
-            authority: self.stake_account.to_account_info(),
+            authority: self.user.to_account_info(),
         };
 
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
         revoke(cpi_ctx)?;
+        
+        self.user_account.amount_staked -= 1;
 
         Ok(())
     }
